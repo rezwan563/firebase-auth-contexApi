@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../Providers/AuthProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
 
 const Login = () => {
-    const {user, signIn} = useContext(AuthContext);
+    const {user, signIn, singInWithGoogle} = useContext(AuthContext);
 
     const handleLogin = (event) =>{
         event.preventDefault()
@@ -15,8 +18,20 @@ const Login = () => {
         .then(result => {
             const loggedUser = result.user;
             console.log(loggedUser);
+            form.reset();
         })
         .catch(error => {
+            console.log(error)
+        })
+    }
+
+    const handleGoogleLogIn = () =>{
+        singInWithGoogle()
+        .then(result =>{
+            const loggedUser = result.user;
+            console.log(loggedUser);
+        })
+        .catch(error =>{
             console.log(error)
         })
     }
@@ -46,7 +61,10 @@ const Login = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                            <button className="btn btn-primary">Log in</button>
+                        </div>
+                        <div className="form-control mt-6">
+                            <button onClick={handleGoogleLogIn} className="btn btn-primary text-2xl ">G</button>
                         </div>
                     </form>
                 </div>
